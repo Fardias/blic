@@ -1,35 +1,3 @@
-// import React from 'react';
-// import MasterLayout from '../layouts/MasterLayouts';
-// import { Head } from '@inertiajs/react';
-// import HeroSection from '@/components/HeroSection';
-
-// export default function Home() {
-
-//     return (
-//         <>
-//             <Head title="Home" />
-//             <MasterLayout>
-//                 <section className='bg-gradient-to-b from-primary-950 from-10% via-purple-900 via-50% to-purple-800 to-90% bg-blend-hard-light h-[100vh]'>
-//                     <div className='pt-10'>
-//                         <img src="images/Logo.svg" alt="" className='h-[28px] mx-auto' />
-//                     </div>
-//                     <h1 className='font-instrument-sans text-white text-center pt-[200px]'>
-//                         Hello, Blutizen! 🤚🏻
-//                     </h1>
-//                     <h1 className='font-instrument-sans text-white text-center pt-[200px]'>
-//                         Hello, Tech Enthusiast!
-//                     </h1>
-//                     <h1 className='font-instrument-sans text-white text-center pt-[200px]'>
-//                         Welcome, Maba UBL 2025!
-//                     </h1>
-//                     <HeroSection />
-//                 </section>
-//             </MasterLayout>
-//         </>
-//     );
-// }
-
-
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { Head } from "@inertiajs/react";
@@ -41,7 +9,9 @@ const MainComponent = () => {
         <>
             <Head title="Home" />
             <MasterLayout>
-                <HeroSection />
+                <div className="h-screen w-full text-white overflow-hidden bg-gradient-to-b from-primary-950 from-10% via-purple-900 via-50% to-purple-800 to-90% bg-blend-hard-light">
+                    <HeroSection />
+                </div>
                 {/* <StoriesSection /> */}
             </MasterLayout>
         </>
@@ -50,6 +20,7 @@ const MainComponent = () => {
 
 const Home = () => {
     const preloaderRef = useRef(null);
+    // logoRef tidak digunakan, bisa dihapus jika tidak ada rencana lain
     const logoRef = useRef(null);
     const textBlutizenRef = useRef(null);
     const textTechRef = useRef(null);
@@ -59,37 +30,40 @@ const Home = () => {
     useEffect(() => {
         const tl = gsap.timeline({
             onComplete: () => {
-                gsap.to(preloaderRef.current, {
-                    opacity: 0,
-                    duration: 0.5,
+                // Sedikit penyesuaian agar ada fade out dari preloader sebelum main content muncul
+                gsap.fromTo(preloaderRef.current, {
+                    opacity: 1, // Fade out preloader
+                    y: "100%"
+                }, {
+                    duration: 1,
+                    opacity: 1,
+                    y: "0%",
+                    ease: "power2.inOut",
                     onComplete: () => setShowMain(true),
                 });
             },
         });
 
-        // Alur animasi dimulai langsung dari logo ke teks Blutizen
-        tl
-            // Logo muncul
-            .from(logoRef.current, { y: 100, opacity: 0, duration: 0.8, ease: "power2.out" })
-            // Logo menghilang
-            .to(logoRef.current, { y: -100, opacity: 0, duration: 0.8, delay: 0.5, ease: "power2.in" })
 
-            // Animasi "Eskrim" telah dihapus dari sini
-
-            // "Hello, Blutizen!" muncul
-            .fromTo(textBlutizenRef.current, { y: 100, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" })
-            // "Hello, Blutizen!" menghilang
-            .to(textBlutizenRef.current, { y: -100, opacity: 0, duration: 0.8, delay: 1.5, ease: "power2.in" })
-
-            // "Hello, Tech Enthusiast!" muncul
-            .fromTo(textTechRef.current, { y: 100, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" })
-            // "Hello, Tech Enthusiast!" menghilang
-            .to(textTechRef.current, { y: -100, opacity: 0, duration: 0.8, delay: 1.5, ease: "power2.in" })
-
-            // "Welcome, Maba UBL 2025!" muncul
-            .fromTo(textMabaRef.current, { y: 100, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" })
-            // Tahan pesan terakhir sejenak sebelum seluruh preloader menghilang
-            .to(textMabaRef.current, { delay: 2 });
+        tl.fromTo(
+            textBlutizenRef.current,
+            { y: "100%", opacity: 1 },
+            { y: "0%", opacity: 1, duration: 0.8, ease: "power2.out" }
+        )
+          .to(textBlutizenRef.current, { y: "-100%", opacity: 1, duration: 0.8, delay: 0.7, ease: "power2.in" })
+          .fromTo(
+            textTechRef.current,
+            { y: "100%", opacity: 1 },
+            { y: "0%", opacity: 1, duration: 0.8, ease: "power2.out" }
+        )
+          .to(textTechRef.current, { y: "-100%", opacity: 1, duration: 0.8, delay: 0.7, ease: "power2.in" })
+          .fromTo(
+            textMabaRef.current,
+            { y: "100%", opacity: 1 },
+            { y: "0%", opacity: 1, duration: 0.8, ease: "power2.out" }
+        )
+          .to(textMabaRef.current, { y: "-100%", opacity: 1, duration: 0.8, delay: 0.7, ease: "power2.in" })
+          .fromTo(logoRef.current, {  opacity: 1 }, {  opacity: 0, duration: 0.8, ease: "power2.out" });
 
     }, []);
 
@@ -100,20 +74,20 @@ const Home = () => {
     return (
         <div
             ref={preloaderRef}
-            className="h-screen w-full flex justify-center items-center bg-gray-900 text-white overflow-hidden bg-gradient-to-b from-primary-950 from-10% via-purple-900 via-50% to-purple-800 to-90% bg-blend-hard-light"
+            className="h-screen w-full flex flex-col justify-center items-center text-white overflow-hidden bg-gradient-to-b from-primary-950 from-10% via-purple-900 via-50% to-purple-800 to-90% bg-blend-hard-light relative"
         >
-            {/* Elemen-elemen yang akan dianimasikan */}
-            <img ref={logoRef} src="/images/Logo.svg" alt="Brand Logo" className="h-[90px]" />
-
-            <h1 ref={textBlutizenRef} className='font-instrument-sans text-4xl md:text-6xl text-white text-center absolute opacity-0'>
-                Hello, Blutizen! 🤚🏻
-            </h1>
-            <h1 ref={textTechRef} className='font-instrument-sans text-4xl md:text-6xl text-white text-center absolute opacity-0'>
-                Hello, Tech Enthusiast!
-            </h1>
-            <h1 ref={textMabaRef} className='font-instrument-sans text-4xl md:text-6xl text-white text-center absolute opacity-0'>
-                Welcome, Maba UBL 2025!
-            </h1>
+            <img ref={logoRef}  src="images/logo.svg" alt="logo"className="h-[28px] md:h-[32px] lg:h-[36px] xl:h-[60px] absolute top-10 left-1/2 transform -translate-x-1/2" />
+            <div className="relative h-[40px] md:h-[40px] lg:h-[43px] xl:h-[71px] w-full overflow-hidden flex justify-center items-center ">
+                <h1 ref={textBlutizenRef} className='font-instrument-sans text-2xl md:text-3xl lg:text-4xl xl:text-7xl text-white text-center absolute w-full opacity-0'>
+                    Hello, Blutizen! 🤚🏻
+                </h1>
+                <h1 ref={textTechRef} className='font-instrument-sans text-2xl md:text-3xl lg:text-4xl xl:text-7xl text-white text-center absolute w-full opacity-0'>
+                    Hello, Tech Enthusiast!
+                </h1>
+                <h1 ref={textMabaRef} className='font-instrument-sans text-2xl md:text-3xl lg:text-4xl xl:text-7xl text-white text-center absolute w-full opacity-0'>
+                    Welcome, Maba UBL 2025!
+                </h1>
+            </div>
         </div>
     );
 };
