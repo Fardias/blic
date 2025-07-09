@@ -3,16 +3,21 @@ import { gsap } from "gsap";
 import { Head } from "@inertiajs/react";
 import MasterLayout from "@/layouts/MasterLayouts";
 import HeroSection from "@/components/HeroSection";
+import StoriesSection from "@/components/StoriesSection";
 
 const MainComponent = () => {
     return (
         <>
             <Head title="Home" />
             <MasterLayout>
-                <div className="h-screen w-full text-white overflow-hidden bg-gradient-to-b from-primary-950 from-10% via-purple-900 via-50% to-purple-800 to-90% bg-blend-hard-light">
+                {/* className="w-full text-white overflow-hidden bg-gradient-to-b from-primary-950 from-10% via-purple-900 via-50% to-purple-800 to-90% bg-blend-hard-light p-4" */}
+
+                {/* className="w-full text-white overflow-hidden bg-[linear-gradient(to_bottom,_#080126_10%,_#3AF8F8_35%,_#3b0764_50%,_#581c87_90%)] bg-blend-hard-light p-4"
+                */}
+                <div className="w-full text-white overflow-hidden bg-[linear-gradient(to_bottom,_#07070c_10%,_#21184e_35%,_#312475_50%,_#3af8f8_90%)] bg-blend-hard-light p-4">
                     <HeroSection />
+                    <StoriesSection />
                 </div>
-                {/* <StoriesSection /> */}
             </MasterLayout>
         </>
     );
@@ -20,7 +25,6 @@ const MainComponent = () => {
 
 const Home = () => {
     const preloaderRef = useRef(null);
-    // logoRef tidak digunakan, bisa dihapus jika tidak ada rencana lain
     const logoRef = useRef(null);
     const textBlutizenRef = useRef(null);
     const textTechRef = useRef(null);
@@ -30,9 +34,8 @@ const Home = () => {
     useEffect(() => {
         const tl = gsap.timeline({
             onComplete: () => {
-                // Sedikit penyesuaian agar ada fade out dari preloader sebelum main content muncul
                 gsap.fromTo(preloaderRef.current, {
-                    opacity: 1, // Fade out preloader
+                    opacity: 1,
                     y: "100%"
                 }, {
                     duration: 1,
