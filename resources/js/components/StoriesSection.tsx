@@ -13,15 +13,16 @@ const StoriesSection = () => {
                     Are you interested in starting your story in technology with us?
                 </p>
 
-                <div className="mt-12 max-w-4xl mx-auto">
+                <div className="mt-12 max-w-4xl mx-auto rounded-3xl p-2 bg-gradient-to-b from-blue-700 to-cyan-400 shadow-2xl">
                     <a
                         href="#"
-                        className="block relative rounded-2xl overflow-hidden shadow-2xl group transition-transform duration-300 ease-in-out hover:scale-105"
+                        // class 'hover:scale-105' dan 'transition-transform' dihapus dari sini
+                        className="block relative rounded-2xl overflow-hidden group"
                     >
                         <img
-                            src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop" // GANTI DENGAN PATH GAMBAR ANDA
+                            src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop"
                             alt="Workshop participants learning about cyber security"
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                            className="absolute inset-0 w-full h-full object-cover transition-all duration-300 group-hover:scale-110 group-hover:grayscale"
                         />
 
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
